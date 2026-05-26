@@ -47,3 +47,22 @@ Make sure you have Python installed, then clone the repository:
 ```bash
 git clone [https://github.com/GilZucker/Automation_Exercise_Suite.git](https://github.com/GilZucker/Automation_Exercise_Suite.git)
 cd Automation_Exercise_Suite
+```
+
+
+### 2. Setup Virtual Environment
+python -m venv .venv
+
+On Windows: .venv\Scripts\activate
+On Mac/Linux: source .venv/bin/activate
+
+### 3. Install Dependencies
+pip install pytest selenium
+
+### 4. Execute the Test Suite
+pytest -v
+
+
+
+
+
