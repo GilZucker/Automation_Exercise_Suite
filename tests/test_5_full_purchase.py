@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from pages import login_page
 from pages.checkout_page import CheckoutPage
 from pages.login_page import LoginPage
 from pages.searching_item import SearchItem
@@ -52,17 +51,17 @@ class TestFullPurchase:
         # 4. Add to cart
         search.hover_and_add_to_cart("Sleeveless Unicorn Patch Gown - Pink")
 
-        # 5. Assert שהמוצר התווסף
+        # 5. Verify product was added to cart
         popup = wait.until(EC.visibility_of_element_located(
             (By.XPATH, "//h4[contains(text(), 'Added')]")
         ))
         assert "Added" in popup.text, "❌ Item not added to cart"
         print(f"✅ Item: {item1} - added to cart successfully!")
 
-        # 1. קודם כל לוחצים על הכפתור כדי לסגור את המודאל!
+        # 1. First, clicking the button to close the module
         search.click_continue_shopping()
 
-        # 2. רק עכשיו (אם רוצים) מוודאים שהוא אכן נעלם מהמסך לפני שממשיכים למוצר הבא
+        # 2. Verifying that the popup disappeared
         wait.until(EC.invisibility_of_element_located((By.XPATH, "//h4[contains(text(), 'Added')]")))
 
         # 6. Search for another item

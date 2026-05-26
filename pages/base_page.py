@@ -5,38 +5,38 @@ class BasePage:
         self.driver = driver
 
     def clean_ads(self):
-        """מוחק לחלוטין את הפרסומות העקשניות של גוגל כולל ה-Shadow DOM מהשורש"""
+        """ Deleting the persistent ads from Google, including the Shadow DOM"""
         js_script = """
-        // 1. מחיקת ה-ins הראשי שמחזיק את ה-Shadow DOM (החץ המעצבן)
+        // 1. Remove the main 'ins' element holding the Shadow DOM (the annoying arrow ad)
         document.querySelectorAll('ins.adsbygoogle-noablate, ins.adsbygoogle').forEach(el => el.remove());
 
-        // 2. מחיקת iframes ופרסומות קופצות אחרות של גוגל
+        // 2. Remove any Google ad iframes and overlay wrappers
         document.querySelectorAll('iframe[id^="aswift_"], iframe[id^="google_ads_"], div[id^="google_ads_"]').forEach(el => el.remove());
 
-        // 3. שחרור נעילת גלילה אם קיימת
+        // 3. Unlock page scrolling if restricted by ads
         document.body.style.overflow = 'auto';
         document.documentElement.style.overflow = 'auto';
         """
         try:
             self.driver.execute_script(js_script)
         except Exception:
-            pass  # מונע מהטסט לקרוס אם ה-JS נכשל מסיבה כלשהי
+            pass  # Prevents test from crashing if JS execution fails for any reason
 
     def find(self, locator):
         return self.driver.find_element(*locator)
 
     def click(self, locator):
-        # 1. מנקים את הפרסומות מהמסך כדי שלא יחסמו את הכפתור
+        # 1. Clear active ads from the viewport to prevent blocking the element
         self.clean_ads()
 
-        # 2. מוצאים את האלמנט ושומרים אותו במשתנה element
+        # 2. Locate the element and store it in a variable
         element = self.find(locator)
 
         try:
-            # 3. מנסים את הקליק הרגיל של סלניום
+            # 3. Attempt standard Selenium click action
             element.click()
         except Exception:
-            # 4. אם הקליק נחסם, אנחנו עוקפים את החסימה באמצעות JS
+            # 4. If the standard click is intercepted/blocked, bypass via JavaScript executor
             self.driver.execute_script("arguments[0].click();", element)
 
     def type_text(self, locator, text):

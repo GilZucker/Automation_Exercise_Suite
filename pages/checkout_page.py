@@ -49,16 +49,16 @@ class CheckoutPage(BasePage):
     def get_total_price(self, expected_total=None):
         wait = WebDriverWait(self.driver, 10)
 
-        # 1. מחכים שהאלמנט יהיה קיים
+        # 1. Waiting for the element to appear
         total_element = wait.until(EC.presence_of_element_located(self.TOTAL_PRICE))
 
-        # 2. גוללים אליו
+        # 2. Screen scrolling to the center
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", total_element)
 
-        # 3. מדפיסים בדיוק מה סלניום רואה באלמנט הזה ברגע זה!
+        # 3. Printing the result output of the selenium
         print(f"\n🔍 DEBUG SCREEN: The text currently inside TOTAL_PRICE element is: '{total_element.text}'")
 
-        # 4. המתנה חכמה
+        # 4. Waiting
         if expected_total:
             wait.until(EC.text_to_be_present_in_element(self.TOTAL_PRICE, expected_total))
 

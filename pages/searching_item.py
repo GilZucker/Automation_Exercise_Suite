@@ -45,7 +45,6 @@ class SearchItem(BasePage):
         self.click(self.SEARCH_BTN)
 
     def click_continue_shopping(self):
-        # משתמשים בדיוק באותו השם שהגדרת למעלה (CONTINUE_BTN_LOCATOR)
         self.click(self.CONTINUE_BTN_LOCATOR)
 
 
@@ -65,7 +64,6 @@ class SearchItem(BasePage):
 
         self.clean_ads()
 
-        # 6. לוחצים - ואם חסום, ה-JS ילחץ בכוח ישירות בתוך ה-DOM
         try:
             add_btn.click()
         except Exception:
